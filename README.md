@@ -2,10 +2,76 @@
 
 这是一个基于 GitHub Pages 和 GitHub Issues 的个人导航网站项目。
 
+## 🎉 1.0 版本发布！
+
+### 主要功能
+- ✨ GitHub Token 快捷登录
+- 📝 基于 Issues 的网站管理
+- 🖼️ 自动获取网站图标
+- 📱 响应式布局设计
+- 🚀 一键部署到 GitHub Pages
+
+### 在线体验
+访问示例站点：https://nbt0.github.io/personal-navigation/
+
 ## 项目说明
 这个项目有两个目标：
 1. 开发一个基于 GitHub Issues 的个人导航网站
 2. 后续会通过这个项目编写一份 Cursor + AI 辅助开发的教程
+
+## 特性
+
+- 🔒 使用 GitHub Token 进行身份验证
+- 📝 使用 Issues 存储网站数据
+- 🖼️ 自动获取网站图标
+- 📱 响应式布局，支持移动端
+- 🚀 纯静态部署，无需后端服务
+
+## 快速开始
+
+1. **Fork 本仓库**
+
+2. **开启 GitHub Pages**
+   - 进入仓库设置 -> Pages
+   - Source 选择 "GitHub Actions"
+
+3. **访问你的网站**
+   - 地址：`https://你的用户名.github.io/personal-navigation/`
+   - 点击右上角"登录"按钮
+   - 在弹窗中点击"前往 GitHub 创建 Token"
+   - 生成并保存 Token
+   - 开始添加你的网站收藏
+
+## 技术栈
+
+- ⚛️ React + Vite
+- 🎨 Ant Design
+- 📦 GitHub REST API
+- 🚀 GitHub Actions
+
+## 更新日志
+
+### v1.0.0 (2024-03-21)
+- ✨ 完成基础功能开发
+- 🎨 优化用户界面和交互
+- 🐛 修复已知问题
+- 📝 完善项目文档
+
+## 本地开发
+
+```bash
+# 克隆仓库
+git clone https://github.com/你的用户名/personal-navigation.git
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
+
+# 构建
+npm run build
+```
 
 ## 如何使用
 
@@ -371,32 +437,6 @@ src/
    - GitHub Pages 设置：选择 GitHub Actions 作为部署源
    - 权限设置：确保 Actions 有足够的仓库访问权限
 
-### 建议
-- 在进行 GitHub 相关操作时，注意查看授权请求的来源和权限范围
-- 保存好授权凭证，避免频繁重新授权
-- 仔细检查工作流配置文件的语法
-
-### GitHub Pages 部署参考
-- GitHub Pages 官方文档：https://docs.github.com/zh/pages/quickstart
-- Vite 部署指南：https://cn.vitejs.dev/guide/static-deploy.html#github-pages
-- GitHub Actions 工作流文档：https://docs.github.com/cn/actions/quickstart
-
-**部署步骤详解**
-1. 仓库设置
-   - 进入仓库的 Settings -> Pages
-   - 在 Build and deployment 部分
-   - Source 选择 "GitHub Actions"
-
-2. 工作流配置
-   - 创建 `.github/workflows/deploy.yml`
-   - 配置自动部署流程
-   - 设置正确的 Node.js 版本和构建命令
-
-3. 常见问题
-   - 404 错误：检查 base 路径配置
-   - 构建失败：检查依赖安装和构建命令
-   - 权限问题：检查仓库的 Actions 权限设置
-
 建议：部署前先在本地运行 `npm run build` 测试构建是否成功。
 
 ### 2024-03-21 - 部署准备
@@ -437,3 +477,28 @@ src/
 - [x] 仓库可见性设置
   - 将仓库从 Private 改为 Public
   - 原因：GitHub Pages 免费版只支持公开仓库 
+
+## 最近更新
+
+### 2024-03-21
+- ✨ 优化 Token 设置体验
+- 🎨 改进网站卡片布局
+- 🐛 修复图标加载问题
+- 📱 优化移动端显示
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 许可
+
+MIT License
+
+## 开发计划
+
+### 即将推出的功能
+- [ ] 网站分类管理
+- [ ] 拖拽排序
+- [ ] 搜索功能
+- [ ] 数据导入导出
+- [ ] 暗色主题

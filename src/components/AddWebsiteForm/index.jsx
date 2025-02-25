@@ -37,9 +37,6 @@ const AddWebsiteForm = ({ open, onCancel, onSubmit }) => {
       <Form 
         form={form} 
         layout="vertical"
-        initialValues={{
-          icon: 'favicon.ico'  // 默认图标路径
-        }}
       >
         <Form.Item
           name="title"
@@ -71,14 +68,6 @@ const AddWebsiteForm = ({ open, onCancel, onSubmit }) => {
             showCount
             maxLength={100}
           />
-        </Form.Item>
-
-        <Form.Item
-          name="icon"
-          label="图标地址"
-          extra="默认使用网站根目录下的 favicon.ico"
-        >
-          <Input placeholder="请输入图标地址" />
         </Form.Item>
       </Form>
     </Modal>

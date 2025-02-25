@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, Button, Modal, message } from 'antd';
-import { GithubOutlined, PlusOutlined } from '@ant-design/icons';
+import { GithubOutlined, PlusOutlined, LogoutOutlined } from '@ant-design/icons';
 import TokenInput from '../TokenInput';
 import { AuthService } from '../../services/auth';
 import AddWebsiteForm from '../AddWebsiteForm';
@@ -55,12 +55,23 @@ const AppLayout = ({ children }) => {
     }
   };
 
+  // 处理登录
+  const handleLogin = () => {
+    setIsTokenModalOpen(true);
+  };
+
+  // 处理登录成功
+  const handleLoginSuccess = () => {
+    setIsTokenModalOpen(false);
+    window.location.reload(); // 登录成功后刷新页面
+  };
+
   const handleSubmit = async (values) => {
     try {
       await GitHubService.createWebsite(values);
       message.success('添加成功');
       setIsAddModalOpen(false);
-      window.location.reload();
+      window.location.reload(); // 添加成功后刷新页面
     } catch (error) {
       message.error(error.message);
     }
@@ -75,20 +86,28 @@ const AppLayout = ({ children }) => {
           <h1 style={styles.title}>个人导航</h1>
           {/* 右侧按钮组 */}
           <div style={styles.buttonGroup}>
-            {/* 添加网站按钮始终显示 */}
+            {/* 添加网站按钮 */}
             <Button 
-              icon={<PlusOutlined />} 
               type="primary"
+              icon={<PlusOutlined />}
               onClick={handleAddClick}
             >
               添加网站
             </Button>
-            {isLoggedIn && (
+            {isLoggedIn ? (
               <Button 
-                icon={<GithubOutlined />}
+                icon={<LogoutOutlined />}
                 onClick={() => AuthService.logout()}
               >
                 退出
+              </Button>
+            ) : (
+              <Button 
+                type="primary"
+                icon={<GithubOutlined />}
+                onClick={handleLogin}
+              >
+                登录
               </Button>
             )}
           </div>
@@ -112,7 +131,7 @@ const AppLayout = ({ children }) => {
         onCancel={() => setIsTokenModalOpen(false)}
         footer={null}
       >
-        <TokenInput onLogin={() => setIsTokenModalOpen(false)} />
+        <TokenInput onLogin={handleLoginSuccess} />
         <div style={{ marginTop: '16px', color: '#666', fontSize: '14px' }}>
           <p>如何获取 Token：</p>
           <ol style={{ paddingLeft: '20px' }}>

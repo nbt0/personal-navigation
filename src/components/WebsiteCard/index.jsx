@@ -5,15 +5,28 @@ import { GitHubService } from '../../services/github';
 import { AuthService } from '../../services/auth';
 
 const WebsiteCard = ({ website, onRefresh }) => {
-  const { title, url, description, icon, id } = website;
+  const { title, url, description, id } = website;
   const isLoggedIn = AuthService.isAuthenticated();
 
-  // 处理删除
+  // 获取网站图标
+  const getFaviconUrl = (websiteUrl) => {
+    try {
+      const urlObj = new URL(websiteUrl);
+      // 使用 favicon.ico 直接访问
+      return `${urlObj.origin}/favicon.ico`;
+    } catch (error) {
+      // 如果解析失败，使用 Google 的服务作为备选
+      return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(websiteUrl)}&sz=64`;
+    }
+  };
+
   const handleDelete = async () => {
     try {
-      await GitHubService.deleteWebsite(id);
-      message.success('删除成功');
-      onRefresh?.();
+      const success = await GitHubService.deleteWebsite(id);
+      if (success) {
+        message.success('删除成功');
+        window.location.reload(); // 删除成功后刷新页面
+      }
     } catch (error) {
       message.error(error.message);
     }
@@ -22,16 +35,38 @@ const WebsiteCard = ({ website, onRefresh }) => {
   return (
     <Card
       hoverable
+      style={{ 
+        boxShadow: '0 1px 2px rgba(0,0,0,0.1)',
+        height: '100%'  // 确保所有卡片高度一致
+      }}
       cover={
-        icon && (
-          <div style={{ padding: '16px', display: 'flex', justifyContent: 'center' }}>
-            <img 
-              alt={title} 
-              src={icon} 
-              style={{ width: '64px', height: '64px', objectFit: 'contain' }}
-            />
-          </div>
-        )
+        <div style={{ 
+          padding: '16px', 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          background: '#f5f5f5',
+          height: '80px' // 固定高度
+        }}>
+          <img 
+            alt={title} 
+            src={getFaviconUrl(url)}
+            style={{ 
+              width: '32px', 
+              height: '32px',
+              objectFit: 'contain'
+            }}
+            onError={(e) => {
+              // 如果直接访问失败，切换到 Google 服务
+              if (!e.target.dataset.tried) {
+                e.target.dataset.tried = 'true';
+                e.target.src = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(url)}&sz=64`;
+              } else {
+                e.target.style.display = 'none';
+              }
+            }}
+          />
+        </div>
       }
       actions={[
         <Button 

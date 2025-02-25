@@ -11,37 +11,36 @@ const Home = () => {
   const isLoggedIn = AuthService.isAuthenticated();
 
   const loadWebsites = async () => {
-    // 如果没有 token，不加载数据
-    if (!isLoggedIn) {
-      return;
-    }
+    if (!isLoggedIn) return;
 
     setLoading(true);
     try {
       const data = await GitHubService.getWebsites();
-      setWebsites(data);
+      setWebsites(data || []); // 确保总是设置数组
     } catch (error) {
-      message.error('加载网站列表失败');
+      if (error.message !== '获取网站列表失败') {
+        message.error(error.message);
+      }
+      setWebsites([]); // 出错时清空列表
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    // 只在登录状态下加载数据
     if (isLoggedIn) {
       loadWebsites();
     }
-  }, [isLoggedIn]); // 添加 isLoggedIn 作为依赖
+  }, [isLoggedIn]);
 
   return (
-    <div>
-      {/* 顶部区域 */}
+    <div style={{ padding: '20px' }}>
       <div style={{ 
         display: 'flex', 
         justifyContent: 'space-between', 
         alignItems: 'center',
-        marginBottom: '24px' 
+        marginBottom: '24px',
+        padding: '0 8px'
       }}>
         <h2>欢迎使用个人导航</h2>
         {isLoggedIn && (
@@ -55,27 +54,53 @@ const Home = () => {
         )}
       </div>
 
-      {/* 网站列表 */}
       <Spin spinning={loading}>
         {isLoggedIn ? (
           websites.length > 0 ? (
-            <Row gutter={[16, 16]}>
+            <Row 
+              gutter={[24, 24]}
+              style={{ 
+                margin: '-12px'
+              }}
+            >
               {websites.map((website) => (
-                <Col xs={24} sm={12} md={8} lg={6} key={website.id}>
-                  <WebsiteCard website={website} onRefresh={loadWebsites} />
+                <Col 
+                  xs={24}
+                  sm={12}
+                  md={8}
+                  lg={6}
+                  key={website.id}
+                  style={{ 
+                    padding: '12px'
+                  }}
+                >
+                  <WebsiteCard 
+                    website={website} 
+                    onRefresh={loadWebsites}
+                  />
                 </Col>
               ))}
             </Row>
           ) : (
             <Empty 
               description="暂无网站，点击右上角添加" 
-              style={{ margin: '48px 0' }}
+              style={{ 
+                margin: '48px 0',
+                padding: '24px',
+                background: '#fafafa',
+                borderRadius: '8px'
+              }}
             />
           )
         ) : (
           <Empty 
             description="请先设置 GitHub Token" 
-            style={{ margin: '48px 0' }}
+            style={{ 
+              margin: '48px 0',
+              padding: '24px',
+              background: '#fafafa',
+              borderRadius: '8px'
+            }}
           />
         )}
       </Spin>
