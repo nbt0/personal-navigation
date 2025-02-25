@@ -1,8 +1,8 @@
 import { AuthService } from './auth';
 
 const GITHUB_API = 'https://api.github.com';
-const REPO_OWNER = '你的GitHub用户名';  // 需要替换
-const REPO_NAME = '你的仓库名';  // 需要替换
+const REPO_OWNER = '你的GitHub用户名';  // 修改这里
+const REPO_NAME = 'personal-navigation';  // 确认这是你的仓库名
 
 export const GitHubService = {
   // 获取所有网站数据
